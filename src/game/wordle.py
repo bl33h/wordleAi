@@ -93,6 +93,8 @@ class Wordle:
 
         self.answer = {}
         self.user_guesses = []
+        self.has_won = False
+        self.is_game_finished = False
 
     def reset(self) -> None:
         """
@@ -101,6 +103,8 @@ class Wordle:
         """
         self.answer = {}
         self.user_guesses = []
+        self.has_won = False
+        self.is_game_finished = False
 
     def encode_guess(self, guess: str) -> tuple[str, str]:
         """
@@ -161,23 +165,54 @@ class Wordle:
         Start Playing
         :return: None
         """
+        self.reset()
+
         self.answer = pick_answer(self.answers_path)
         self.user_guesses: list[tuple[str, str]] | list[None] = [None] * self.max_guesses
-        has_won = False
 
         # Main game loop
         for i in range(self.max_guesses):
-            if has_won:
+            if self.has_won:
                 break
 
             user_guess = self.get_guess()
             self.user_guesses[i] = self.encode_guess(user_guess)
 
-            has_won = user_guess == self.answer['answer']
+            self.has_won = user_guess == self.answer['answer']
 
         # End of game
+        self.is_game_finished = True
         self.display_guesses()
-        if has_won:
+        if self.has_won:
             print("You have won!")
         else:
             print("You have lost!")
+
+    def get_possible_guesses(self) -> list[str]:
+        """
+        Get the possible guesses
+        :return: List of possible guesses
+        """
+        return list(self.valid_guesses)
+
+    def get_possible_answers(self) -> list[str]:
+        """
+        Get the possible answers
+        :return: List of possible answers
+        """
+        return list(load_answers(self.answers_path))
+
+    def get_state(self) -> dict:
+        """
+        Get the current state of the game
+        :return: The state of the game
+        """
+        return {
+            "answer_word": self.answer['answer'],
+            "answer_letters": self.answer['letters'],
+            "is_game_finished": self.is_game_finished,
+            "has_won": self.has_won,
+            "user_guesses": self.user_guesses,
+            "guesses_made": len([guess for guess in self.user_guesses if guess]),
+            "max_guesses": self.max_guesses,
+        }
