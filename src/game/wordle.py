@@ -1,23 +1,27 @@
 import random
 
+GREEN = "2"
+YELLOW = "1"
+GRAY = "0"
 
-def load_answers() -> set:
+
+def load_answers(file_path: str) -> set:
     """
     Loads the answers from the file
     :return: Set of words
     """
-    with open('data/answers.txt', 'r') as f:
+    with open(file_path, 'r') as f:
         return set(f.read().splitlines())
 
 
-def load_guesses() -> dict:
+def load_guesses(file_path: str) -> dict:
     """
     Loads the guesses from the file
     {word: probability}
     :return: Set of guesses
     """
     guesses = {}
-    with open('data/guesses.txt', 'r') as f:
+    with open(file_path, 'r') as f:
         lines = f.read().splitlines()
         for line in lines:
             word, guess = line.split(' ')
@@ -40,12 +44,12 @@ def parse_letters(word: str) -> dict:
     return letters
 
 
-def pick_answer() -> dict:
+def pick_answer(file_path: str) -> dict:
     """
     Picks a random answer from the list of answers.
     :return:
     """
-    word = random.choice(list(load_answers()))
+    word = random.choice(list(load_answers(file_path)))
     answer = {
         "answer": word,
         "letters": parse_letters(word)
@@ -53,14 +57,39 @@ def pick_answer() -> dict:
     return answer
 
 
+def display_row(guess: tuple[str, str] = None) -> None:
+    """
+    Get the row for the guess
+    :param guess: The user's guess
+    :return: The row
+    """
+    if not guess:
+        print("▢▢▢▢▢")
+    else:
+        # Encode with answers
+        word, code = guess
+        for i, letter in enumerate(word):
+            if code[i] == GREEN:
+                print(f"\033[92m{letter}\033[0m", end="")
+            elif code[i] == YELLOW:
+                print(f"\033[93m{letter}\033[0m", end="")
+            else:  # GRAY
+                print(f"\033[90m{letter}\033[0m", end="")
+        print()
+
+
 class Wordle:
     """
     A CLI version of the game Wordle.
     """
 
-    def __init__(self, max_guesses: int = 3):
+    def __init__(self, answers_path: str, guesses_path: str, max_guesses: int = 6, display_answer: bool = False):
+        self.display_answer = display_answer
+        self.answers_path = answers_path
+        self.guesses_path = guesses_path
+
         self.max_guesses = max_guesses
-        self.valid_guesses: dict = load_guesses()
+        self.valid_guesses: dict = load_guesses(guesses_path)
 
         self.answer = {}
         self.user_guesses = []
@@ -90,49 +119,51 @@ class Wordle:
         for i, letter in enumerate(guess):
             if letter in answer_letters and answer_letters[letter] > 0:
                 if answer[i] == letter:
-                    code += "2"
+                    code += GREEN
                 else:
-                    code += "1"
+                    code += YELLOW
                 answer_letters[letter] -= 1
             else:
-                code += "0"
+                code += GRAY
 
         return guess, code
-
-    def get_row_display(self, encoded_guess: str = None) -> str:
-        """
-        Get the row for the guess
-        :param encoded_guess: The user's guess
-        :return: The row
-        """
-        if not encoded_guess:
-            return "▢▢▢▢▢"
-        else:
-            # Encode with answers
-            return "AAAAA"
 
     def get_guess(self) -> str:
         """
         Get the user's guess by showing the current state of the game
         :return: The user's guess
         """
-        # for i in range(self.max_guesses):
-        #     print(self.get_row_display(self.user_guesses[i]))
-
+        self.display_guesses()
         user_guess = input("Enter your guess: ")
+        # Check if the guess is valid
+        while len(user_guess) != 5 or user_guess not in self.valid_guesses:
+            # Clear the screen
+            print("\033[H\033[J")
+            self.display_guesses()
+            user_guess = input("Invalid guess. Enter your guess: ")
         return user_guess
+
+    def display_guesses(self) -> None:
+        """
+        Display the user's guesses
+        :return:
+        """
+        if self.display_answer:
+            print("====================================")
+            print(f"Answer: {self.answer['answer']}")
+        print("====================================")
+        for j in range(self.max_guesses):
+            display_row(self.user_guesses[j])
+        print("====================================")
 
     def play(self) -> None:
         """
         Start Playing
         :return: None
         """
-        # self.answer = pick_answer()
-        self.answer = {"answer": "helos", "letters": parse_letters("helos")}
+        self.answer = pick_answer(self.answers_path)
         self.user_guesses: list[tuple[str, str]] | list[None] = [None] * self.max_guesses
         has_won = False
-
-        print(self.answer)
 
         # Main game loop
         for i in range(self.max_guesses):
@@ -142,11 +173,10 @@ class Wordle:
             user_guess = self.get_guess()
             self.user_guesses[i] = self.encode_guess(user_guess)
 
-            print(self.user_guesses)
-
             has_won = user_guess == self.answer['answer']
 
         # End of game
+        self.display_guesses()
         if has_won:
             print("You have won!")
         else:
