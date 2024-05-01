@@ -2,11 +2,7 @@ import random
 
 from src.data.file_functions import load_answers, load_guesses
 from src.models.agent import Agent
-
-GREEN = "2"
-YELLOW = "1"
-GRAY = "0"
-
+from src.feedback import Feedback as f
 
 def parse_letters(word: str) -> dict:
     """
@@ -45,9 +41,9 @@ def display_row(guess: tuple[str, str] = None) -> None:
         # Encode with answers
         word, code = guess
         for i, letter in enumerate(word):
-            if code[i] == GREEN:
+            if code[i] == f.GREEN.value:
                 print(f"\033[92m{letter}\033[0m", end="")
-            elif code[i] == YELLOW:
+            elif code[i] == f.YELLOW.value:
                 print(f"\033[93m{letter}\033[0m", end="")
             else:  # GRAY
                 print(f"\033[90m{letter}\033[0m", end="")
@@ -112,12 +108,12 @@ class Wordle:
         for i, letter in enumerate(guess):
             if letter in answer_letters and answer_letters[letter] > 0:
                 if answer[i] == letter:
-                    code += GREEN
+                    code += f.GREEN.value
                 else:
-                    code += YELLOW
+                    code += f.YELLOW.value
                 answer_letters[letter] -= 1
             else:
-                code += GRAY
+                code += f.GRAY.value
 
         return guess, code
 

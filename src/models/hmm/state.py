@@ -1,7 +1,7 @@
 class State:
     def __init__(self, word: str, prob: float = 0.0):
         self.word = word
-        self.prob = prob
+        self.probability = prob
 
     def __str__(self):
         return self.word
