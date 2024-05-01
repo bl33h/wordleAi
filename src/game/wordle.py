@@ -9,7 +9,7 @@ GRAY = "0"
 
 def parse_letters(word: str) -> dict:
     """
-    Parses the letters in the word
+    Parses the letters in the word to a dictionary that keeps track of the amount of each letter in the word.
     :param word: The word to parse
     :return: Dictionary of letters
     """
@@ -70,6 +70,7 @@ class Wordle:
         self.user_guesses = []
         self.has_won = False
         self.is_game_finished = False
+        self.used_letters = []
 
     def reset(self) -> None:
         """
@@ -80,6 +81,7 @@ class Wordle:
         self.user_guesses = []
         self.has_won = False
         self.is_game_finished = False
+        self.used_letters = []
 
     def encode_guess(self, guess: str) -> tuple[str, str]:
         """
@@ -113,7 +115,7 @@ class Wordle:
         :return: The user's guess
         """
         self.display_guesses()
-        user_guess = input("Enter your guess: ")
+        user_guess = input("Enter your guess: ").upper()
         # Check if the guess is valid
         while len(user_guess) != 5 or user_guess not in self.valid_guesses:
             # Clear the screen
@@ -161,7 +163,7 @@ class Wordle:
         if self.has_won:
             print("You have won!")
         else:
-            print("You have lost!")
+            print(f"You have lost! The word was {self.answer['answer']}")
 
     def get_possible_guesses(self) -> list[str]:
         """
