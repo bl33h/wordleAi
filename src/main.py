@@ -10,6 +10,7 @@ def main():
         max_guesses=6,
         display_answer=True
     )
+    wordle.set_agent(User())
     wordle.set_agent(HMM())
     wordle.play()
 

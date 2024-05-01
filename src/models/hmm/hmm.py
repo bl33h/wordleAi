@@ -1,29 +1,20 @@
-from src.data.file_functions import load_guesses
+from hmmlearn import hmm
+
+from src.data.file_functions import *
+from src.feedback import Feedback as f
 from src.models.agent import Agent
-from src.models.hmm.state import State
-
-
-def create_states() -> list[State]:
-    guesses: set[str] = load_guesses('data/guesses.txt', with_frequency=False)
-    states = []
-    individual_prob = 1 / len(guesses)
-    for guess in guesses:
-        states.append(State(guess, individual_prob))
-    return states
 
 
 class HMM(Agent):
     """
-    A Hidden Markov Model for the game Wordle.
+    A Hidden Markov Model (HMM) agent for the Wordle game.
     """
-
     def __init__(self):
         super().__init__()
-        self.states = create_states()
 
     def guess(self) -> str:
         """
-        Guesses the word.
-        :return: The guess
+        The agent tries to guess the word based on the model.
+        :return: The agent's guess
         """
-        return "CRANE"
+        pass
