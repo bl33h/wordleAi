@@ -1,6 +1,7 @@
 import random
 
 from src.data.file_functions import load_answers, load_guesses
+from src.models.agent import Agent
 
 GREEN = "2"
 YELLOW = "1"
@@ -68,9 +69,11 @@ class Wordle:
 
         self.answer = {}
         self.user_guesses = []
+
         self.has_won = False
         self.is_game_finished = False
         self.used_letters = []
+        self.agent = None
 
     def reset(self) -> None:
         """
@@ -82,6 +85,15 @@ class Wordle:
         self.has_won = False
         self.is_game_finished = False
         self.used_letters = []
+
+    def set_agent(self, agent: Agent) -> None:
+        """
+        Set the agent for the game
+        :param agent: The agent to set
+        :return: None
+        """
+        self.agent = agent
+        self.agent.guesses = self.user_guesses
 
     def encode_guess(self, guess: str) -> tuple[str, str]:
         """
@@ -115,14 +127,13 @@ class Wordle:
         :return: The user's guess
         """
         self.display_guesses()
-        user_guess = input("Enter your guess: ").upper()
-        # Check if the guess is valid
-        while len(user_guess) != 5 or user_guess not in self.valid_guesses:
-            # Clear the screen
-            print("\033[H\033[J")
-            self.display_guesses()
-            user_guess = input("Invalid guess. Enter your guess: ")
-        return user_guess
+        agent_guess = ""
+        valid_guess = False
+        while not valid_guess:
+            agent_guess = self.agent.guess()
+            valid_guess = agent_guess in self.valid_guesses
+
+        return agent_guess
 
     def display_guesses(self) -> None:
         """
@@ -154,6 +165,7 @@ class Wordle:
 
             user_guess = self.get_guess()
             self.user_guesses[i] = self.encode_guess(user_guess)
+            self.agent.guesses = self.user_guesses
 
             self.has_won = user_guess == self.answer['answer']
 
