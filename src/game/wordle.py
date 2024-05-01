@@ -1,32 +1,10 @@
 import random
 
+from src.data.file_functions import load_answers, load_guesses
+
 GREEN = "2"
 YELLOW = "1"
 GRAY = "0"
-
-
-def load_answers(file_path: str) -> set:
-    """
-    Loads the answers from the file
-    :return: Set of words
-    """
-    with open(file_path, 'r') as f:
-        return set(f.read().splitlines())
-
-
-def load_guesses(file_path: str) -> dict:
-    """
-    Loads the guesses from the file
-    {word: probability}
-    :return: Set of guesses
-    """
-    guesses = {}
-    with open(file_path, 'r') as f:
-        lines = f.read().splitlines()
-        for line in lines:
-            word, guess = line.split(' ')
-            guesses[word] = guess
-    return guesses
 
 
 def parse_letters(word: str) -> dict:
@@ -50,10 +28,7 @@ def pick_answer(file_path: str) -> dict:
     :return:
     """
     word = random.choice(list(load_answers(file_path)))
-    answer = {
-        "answer": word,
-        "letters": parse_letters(word)
-    }
+    answer = {"answer": word, "letters": parse_letters(word)}
     return answer
 
 
@@ -207,12 +182,6 @@ class Wordle:
         Get the current state of the game
         :return: The state of the game
         """
-        return {
-            "answer_word": self.answer['answer'],
-            "answer_letters": self.answer['letters'],
-            "is_game_finished": self.is_game_finished,
-            "has_won": self.has_won,
-            "user_guesses": self.user_guesses,
-            "guesses_made": len([guess for guess in self.user_guesses if guess]),
-            "max_guesses": self.max_guesses,
-        }
+        return {"answer_word": self.answer['answer'], "answer_letters": self.answer['letters'],
+                "is_game_finished": self.is_game_finished, "has_won": self.has_won, "user_guesses": self.user_guesses,
+                "guesses_made": len([guess for guess in self.user_guesses if guess]), "max_guesses": self.max_guesses, }
