@@ -12,7 +12,7 @@ class BN(Agent):
 
     def update_probs(self):
         count = 0
-        higher_words = []
+        higher_words = {}
         words = []
         for word in self.posible_words:
             for letter in self.letters:
@@ -21,7 +21,7 @@ class BN(Agent):
                 elif (self.letters[letter][0] == 1 or self.letters[letter][0] == 2) and letter in word:
                     count += 1
                     if self.letters[letter][0] == 2 and word[self.letters[letter][1]] == letter:
-                        higher_words.append(word)
+                        higher_words[word] = higher_words[word] + 1 if higher_words[word] is not None else 1
                         words.append(word)
                     elif self.letters[letter][0] == 1:
                         words.append(word)
@@ -32,11 +32,7 @@ class BN(Agent):
         for word in words:
             self.posible_words[word] = 0.6/len(words)
             if word in higher_words:
-                self.posible_words[word] += 0.4/higher_count
-
-
-                    
-
+                self.posible_words[word] += 0.4/higher_count * higher_words[word]
 
     def guess(self) -> str:
         word = self.guesses[-1][0]
@@ -46,5 +42,16 @@ class BN(Agent):
                 self.letters[letter] = (2,i)
             elif code[i] == 1 and (self.letters[letter] == 0 or self.letters[letter] == None):
                 self.letters[letter] = (1,i)
+        
+        self.update_probs()
 
-        pass
+        prob_words = []
+        max_prob = 0
+        for word in self.posible_words:
+            if self.posible_words[word] > max_prob:
+                max_prob = self.posible_words[word]
+                prob_words = [word]
+            elif self.posible_words[word] == max_prob:
+                prob_words.append(word)
+
+        return prob_words[0]
