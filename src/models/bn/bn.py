@@ -113,7 +113,7 @@ class BN(Agent):
                 else:
                     if letter in self.letters:
                         if self.letters[letter] != 2 and self.letters[letter] != 1:
-                            self.letters[letter] = (0,i)
+                            continue
                     else:
                         self.letters[letter] = (0,i)
             
