@@ -128,4 +128,4 @@ class BN(Agent):
 
             return choice(prob_words)
         else:
-            return choice(list(self.posible_words.keys()))
+            return choice(["TRACE", "SALET", "CREATE"])

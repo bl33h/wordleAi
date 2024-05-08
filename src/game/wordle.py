@@ -1,4 +1,5 @@
 import random
+import time
 
 from data.file_functions import load_answers, load_guesses
 from models.agent import Agent
@@ -128,6 +129,7 @@ class Wordle:
         while not valid_guess:
             agent_guess = self.agent.guess()
             valid_guess = agent_guess in self.valid_guesses
+            time.sleep(1)
 
         return agent_guess
 
