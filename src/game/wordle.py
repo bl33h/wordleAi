@@ -1,8 +1,8 @@
 import random
 
-from src.data.file_functions import load_answers, load_guesses
-from src.models.agent import Agent
-from src.feedback import Feedback as f
+from data.file_functions import load_answers, load_guesses
+from models.agent import Agent
+from feedback import Feedback as f
 
 def parse_letters(word: str) -> dict:
     """

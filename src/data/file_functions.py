@@ -1,4 +1,6 @@
-def load_guesses(file_path: str, with_frequency: bool = False) -> set[str] | dict[str, int]:
+from typing import Union
+
+def load_guesses(file_path: str, with_frequency: bool = False) -> Union[set[str], dict[str, int]]:
     if with_frequency:
         guesses = {}
         with open(file_path, 'r') as f:

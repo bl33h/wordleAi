@@ -1,57 +1,131 @@
-from src.models.agent import Agent
-from src.data.file_functions import load_guesses
+from models.agent import Agent
+from data.file_functions import load_guesses
+from random import choice
 
 class BN(Agent):
 
     def __init__(self):
         super().__init__()
-        self.posible_words = load_guesses("data/guesses.txt")
-        for word in self.posible_words:
-            self.posible_words[word] = 1/len(self.posible_words)
+        def define_posible_words(self):
+            for word in self.guess_words:
+                self.posible_words[word] = 1/len(self.guess_words)
+        self.guess_words = load_guesses('src/data/guesses.txt')
+        self.posible_words = {}
+        define_posible_words(self)
         self.letters = {}
 
     def update_probs(self):
-        count = 0
-        higher_words = {}
-        words = []
-        for word in self.posible_words:
-            for letter in self.letters:
-                if self.letters[letter] == None:
-                    continue
-                elif (self.letters[letter][0] == 1 or self.letters[letter][0] == 2) and letter in word:
-                    count += 1
-                    if self.letters[letter][0] == 2 and word[self.letters[letter][1]] == letter:
-                        higher_words[word] = higher_words[word] + 1 if higher_words[word] is not None else 1
-                        words.append(word)
-                    elif self.letters[letter][0] == 1:
-                        words.append(word)
-                else:
-                    self.posible_words[word] = 0 
-        higher_count = len(higher_words)
 
-        for word in words:
-            self.posible_words[word] = 0.6/len(words)
+        def get_letters(self):
+            wletters = {}
+            lletters = {}
+            for letter in self.letters:
+                if self.letters[letter][0] == 1 or self.letters[letter][0] == 2:
+                    wletters[letter] = self.letters[letter]
+                else:
+                    lletters[letter] = self.letters[letter]
+            return wletters, lletters
+        
+        def higher_exist(wletters):
+            for letter in wletters:
+                if wletters[letter][0] == 2:
+                    return True
+            return False
+
+        def letters_in_word(wletters, lletters, word, flag):
+            
+            for letter in lletters:
+                if letter in word:
+                    return False
+            
+            if flag:
+                for letter in wletters:
+                    if letter not in word:
+                        return False
+                    elif wletters[letter][0] == 2 and word[wletters[letter][1]] != letter:
+                        return False
+                    elif wletters[letter][0] == 1 and word[wletters[letter][1]] == letter:
+                        return False
+                return True
+            else:
+                for letter in wletters:
+                    if letter not in word:
+                        return False
+                    elif wletters[letter][0] == 1 and word[wletters[letter][1]] == letter:
+                            return False
+                return True
+            
+
+
+        def is_higher_word(wletters, word):
+            counter = 0
+            for letter in wletters:
+                if wletters[letter][0] == 2 and word[wletters[letter][1]] == letter:
+                    counter += 1
+            return counter
+                    
+
+        higher_words = {}
+        wletters, lletters = get_letters(self)
+        flag = higher_exist(wletters)
+        for word in self.posible_words:
+            if self.posible_words[word] != 0:
+                if letters_in_word(wletters, lletters, word, flag):
+                    if flag:
+                        higher = is_higher_word(wletters, word)
+                        higher_words[word] = higher
+                    else:
+                        higher_words[word] = 1
+                else:
+                    self.posible_words[word] = 0
+
+                
+        higher_count = sum(list(higher_words.values()))
+
+        for word in self.posible_words:
             if word in higher_words:
-                self.posible_words[word] += 0.4/higher_count * higher_words[word]
+                self.posible_words[word] = 1/higher_count*higher_words[word]
+            else:
+                self.posible_words[word] = 0
+            
+
+
+        
 
     def guess(self) -> str:
-        word = self.guesses[-1][0]
-        code = self.guesses[-1][1]
-        for i, letter in enumerate(word):
-            if code[i] == 2 and (self.letters[letter] == 1 or self.letters[letter] == None):
-                self.letters[letter] = (2,i)
-            elif code[i] == 1 and (self.letters[letter] == 0 or self.letters[letter] == None):
-                self.letters[letter] = (1,i)
-        
-        self.update_probs()
+        if self.guesses:
+            ac_guess = None
+            for i in range(len(self.guesses)):
+                if self.guesses[5-i] is not None:
+                    ac_guess = self.guesses[5-i]
+                    break
+            guess_word = ac_guess[0]
+            code = ac_guess[1]
+            for i, letter in enumerate(guess_word):
+                if code[i] == '2':
+                    self.letters[letter] = (2,i)
+                elif code[i] == '1':
+                    if letter in self.letters:
+                        if self.letters[letter] != '2':
+                            self.letters[letter] = (1,i)
+                    else:
+                        self.letters[letter] = (1,i)
+                else:
+                    if letter in self.letters:
+                        if self.letters[letter] != 2 and self.letters[letter] != 1:
+                            self.letters[letter] = (0,i)
+                    else:
+                        self.letters[letter] = (0,i)
+            
+            self.update_probs()
 
-        prob_words = []
-        max_prob = 0
-        for word in self.posible_words:
-            if self.posible_words[word] > max_prob:
-                max_prob = self.posible_words[word]
-                prob_words = [word]
-            elif self.posible_words[word] == max_prob:
-                prob_words.append(word)
+            prob_words = []
+            max_prob = max(list(self.posible_words.values()))
 
-        return prob_words[0]
+            for word in self.posible_words:
+                if self.posible_words[word] >= max_prob:
+                    prob_words.append(word)
+
+            return choice(prob_words)
+        else:
+            return choice(list(self.posible_words.keys()))
