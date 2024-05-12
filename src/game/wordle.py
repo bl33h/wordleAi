@@ -133,19 +133,6 @@ class Wordle:
 
         return agent_guess
 
-    def display_guesses(self) -> None:
-        """
-        Display the user's guesses
-        :return:
-        """
-        if self.display_answer:
-            print("====================================")
-            print(f"Answer: {self.answer['answer']}")
-        print("====================================")
-        for j in range(self.max_guesses):
-            display_row(self.user_guesses[j])
-        print("====================================")
-
     def play(self) -> None:
         """
         Start Playing
@@ -156,24 +143,35 @@ class Wordle:
         self.answer = pick_answer(self.answers_path)
         self.user_guesses: list[tuple[str, str]] | list[None] = [None] * self.max_guesses
 
-        # Main game loop
         for i in range(self.max_guesses):
-            if self.has_won:
-                break
-
             user_guess = self.get_guess()
             self.user_guesses[i] = self.encode_guess(user_guess)
             self.agent.guesses = self.user_guesses
 
             self.has_won = user_guess == self.answer['answer']
+            if self.has_won:
+                break
 
-        # End of game
         self.is_game_finished = True
         self.display_guesses()
         if self.has_won:
             print("You have won!")
         else:
             print(f"You have lost! The word was {self.answer['answer']}")
+
+    def display_guesses(self) -> None:
+        """
+        Display the user's guesses
+        :return:
+        """
+        print("====================================")
+        for j in range(self.max_guesses):
+            if self.user_guesses[j]:
+                display_row(self.user_guesses[j])
+            else:
+                display_row()
+        print("====================================")
+
 
     def get_possible_guesses(self) -> list[str]:
         """
