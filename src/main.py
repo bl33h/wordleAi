@@ -1,5 +1,6 @@
 from game.wordle import Wordle
 from models.bn.bn import BN
+from models.hmm.hmm import HMM
 from models.user.user import User
 
 
@@ -10,7 +11,8 @@ def main():
         max_guesses=6,
         display_answer=True
     )
-    wordle.set_agent(BN())
+    #wordle.set_agent(BN())
+    wordle.set_agent(HMM())
     wordle.play()
 
 
