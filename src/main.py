@@ -1,6 +1,5 @@
 from game.wordle import Wordle
 from models.bn.bn import BN
-from models.hmm.hmm import HMM
 from models.user.user import User
 
 

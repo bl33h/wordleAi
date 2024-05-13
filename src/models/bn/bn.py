@@ -25,66 +25,39 @@ class BN(Agent):
                 else:
                     lletters[letter] = self.letters[letter]
             return wletters, lletters
-        
-        def higher_exist(wletters):
-            for letter in wletters:
-                if wletters[letter][0] == 2:
-                    return True
-            return False
 
-        def letters_in_word(wletters, lletters, word, flag):
+        def letters_in_word(wletters, lletters, word):
             
             for letter in lletters:
                 if letter in word:
                     return False
             
-            if flag:
-                for letter in wletters:
-                    if letter not in word:
-                        return False
-                    elif wletters[letter][0] == 2 and word[wletters[letter][1]] != letter:
-                        return False
-                    elif wletters[letter][0] == 1 and word[wletters[letter][1]] == letter:
-                        return False
-                return True
-            else:
-                for letter in wletters:
-                    if letter not in word:
-                        return False
-                    elif wletters[letter][0] == 1 and word[wletters[letter][1]] == letter:
-                            return False
-                return True
-            
-
-
-        def is_higher_word(wletters, word):
-            counter = 0
             for letter in wletters:
-                if wletters[letter][0] == 2 and word[wletters[letter][1]] == letter:
-                    counter += 1
-            return counter
+                if letter not in word:
+                    return False
+                elif wletters[letter][0] == 2 and word[wletters[letter][1]] != letter:
+                    return False
+                elif wletters[letter][0] == 1 and word[wletters[letter][1]] == letter:
+                    return False
+            return True
+            
                     
 
-        higher_words = {}
+        words = []
         wletters, lletters = get_letters(self)
-        flag = higher_exist(wletters)
         for word in self.posible_words:
             if self.posible_words[word] != 0:
-                if letters_in_word(wletters, lletters, word, flag):
-                    if flag:
-                        higher = is_higher_word(wletters, word)
-                        higher_words[word] = higher
-                    else:
-                        higher_words[word] = 1
+                if letters_in_word(wletters, lletters, word):
+                    words.append(word)
                 else:
                     self.posible_words[word] = 0
 
                 
-        higher_count = sum(list(higher_words.values()))
+        higher_count = len(words)
 
         for word in self.posible_words:
-            if word in higher_words:
-                self.posible_words[word] = 1/higher_count*higher_words[word]
+            if word in words:
+                self.posible_words[word] = 1/higher_count
             else:
                 self.posible_words[word] = 0
             
