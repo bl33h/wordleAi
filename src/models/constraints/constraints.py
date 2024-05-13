@@ -2,7 +2,7 @@ from models.agent import Agent
 from data.file_functions import load_guesses
 from random import choice
 
-class BN(Agent):
+class Constraints(Agent):
 
     def __init__(self):
         super().__init__()
@@ -57,7 +57,7 @@ class BN(Agent):
 
         for word in self.posible_words:
             if word in words:
-                self.posible_words[word] = 1/higher_count
+                self.posible_words[word] = 1
             else:
                 self.posible_words[word] = 0
             
@@ -92,12 +92,7 @@ class BN(Agent):
             
             self.update_probs()
 
-            prob_words = []
-            max_prob = max(list(self.posible_words.values()))
-
-            for word in self.posible_words:
-                if self.posible_words[word] >= max_prob:
-                    prob_words.append(word)
+            prob_words = [word for word in self.posible_words if self.posible_words[word] != 0]
 
             return choice(prob_words)
         else:
