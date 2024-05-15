@@ -1,4 +1,4 @@
-from models.agent import Agent
+from src.models.agent import Agent
 
 
 class User(Agent):

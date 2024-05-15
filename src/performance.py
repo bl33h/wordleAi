@@ -1,9 +1,11 @@
 import csv
-import time
 import statistics
-from game.wordle import Wordle
+import time
+
 from models.bn.bn import BN
-from models.hmm.hmm import HMM
+
+from game.wordle import Wordle
+
 
 def testAlgorithm(agent_class, answersPath, guessesPath, trialsNumber=100):
     totalAttemptss = []
@@ -29,12 +31,8 @@ def testAlgorithm(agent_class, answersPath, guessesPath, trialsNumber=100):
     accuracy = (successes / trialsNumber) * 100
     avgTime = totalTime / trialsNumber
 
-    return {
-        'averageTime': avgTime,
-        'averageAttempts': avgAttempts,
-        'accuracy': accuracy,
-        'failureRate': 100 - accuracy
-    }
+    return {'averageTime': avgTime, 'averageAttempts': avgAttempts, 'accuracy': accuracy, 'failureRate': 100 - accuracy}
+
 
 def saveResults(results, filename):
     keys = results[0].keys()
@@ -43,10 +41,11 @@ def saveResults(results, filename):
         dictWriter.writeheader()
         dictWriter.writerows(results)
 
+
 if __name__ == "__main__":
     bnResults = testAlgorithm(BN, 'src/data/answers.txt', 'src/data/guesses.txt', 100)
     # hmmResults = testAlgorithm(HMM, 'src/data/answers.txt', 'src/data/guesses.txt', 100)
-    saveResults([bnResults], 'src/tests/performance.csv')
+    saveResults([bnResults], 'src/results/performance.csv')
     # saveResults([hmmResults], 'performance2.csv')
 
     print("Results saved up in 'performance.csv'")

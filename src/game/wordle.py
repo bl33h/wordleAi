@@ -1,9 +1,10 @@
 import random
 import time
 
-from data.file_functions import load_answers, load_guesses
-from models.agent import Agent
-from feedback import Feedback as f
+from src.data.file_functions import load_answers, load_guesses
+from src.feedback import Feedback as f
+from src.models.agent import Agent
+
 
 def parse_letters(word: str) -> dict:
     """
@@ -171,7 +172,6 @@ class Wordle:
             else:
                 display_row()
         print("====================================")
-
 
     def get_possible_guesses(self) -> list[str]:
         """

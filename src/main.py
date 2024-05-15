@@ -1,7 +1,7 @@
-from game.wordle import Wordle
-from models.constraints.constraints import Constraints
-from models.hmm.hmm import HMM
-from models.user.user import User
+from src.game.wordle import Wordle
+from src.models.constraints.constraints import Constraints
+from src.models.hmm.hmm import HMM
+from src.models.user.user import User
 
 
 def main():
