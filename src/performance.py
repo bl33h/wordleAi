@@ -5,13 +5,18 @@ from game.wordle import Wordle
 from models.minimax.minimax import Minimax
 from models.constraints.constraints import Constraints
 
-def testAlgorithm(agent_class, agent_name, answersPath, guessesPath, trialsNumber=100):
+def testAlgorithm(agent_class, agent_name, answersPath, guessesPath):
     results = []
-    
-    for i in range(trialsNumber):
+    total_start_time = time.time()
+
+    with open(answersPath, 'r') as file:
+        answers = file.read().splitlines()
+
+    for i, answer in enumerate(answers):
         game = Wordle(answersPath, guessesPath)
         game.set_agent(agent_class())
-        
+        game.answer = answer
+
         starting = time.time()
         game.play()
         ending = time.time()
@@ -27,11 +32,14 @@ def testAlgorithm(agent_class, agent_name, answersPath, guessesPath, trialsNumbe
         results.append(result)
 
         if (i + 1) % 10 == 0:
+            current_time = time.time()
             print(f'\n---------------------- [{i + 1}] completed iterations so far ----------------------')
+            print(f"Time elapsed for last 10 iterations: {current_time - total_start_time:.2f} seconds")
+            total_start_time = current_time
 
     avgTime = statistics.mean([res['totalTime'] for res in results])
     avgAttempts = statistics.mean([res['attempts'] for res in results])
-    accuracy = (sum([1 for res in results if res['won']]) / trialsNumber) * 100
+    accuracy = (sum([1 for res in results if res['won']]) / len(answers)) * 100
     
     summary = {
         'averageTime': avgTime,
@@ -60,8 +68,8 @@ def saveSummary(summary, filename):
         dictWriter.writerow(summary)
 
 if __name__ == "__main__":
-    constraintsResults = testAlgorithm(Constraints, 'Constraints', 'src/data/answers.txt', 'src/data/guesses.txt', 2310)
-    minimaxResults = testAlgorithm(Minimax, 'Minimax', 'src/data/answers.txt', 'src/data/guesses.txt', 2310)
+    constraintsResults = testAlgorithm(Constraints, 'Constraints', 'src/data/answers.txt', 'src/data/guesses.txt')
+    minimaxResults = testAlgorithm(Minimax, 'Minimax', 'src/data/answers.txt', 'src/data/guesses.txt')
     
     saveResults(constraintsResults[:-1], 'src/results/constraintsPerformance.csv')
     saveResults(minimaxResults[:-1], 'src/results/minimaxPerformance.csv')
