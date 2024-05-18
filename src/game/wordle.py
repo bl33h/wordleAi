@@ -52,6 +52,34 @@ def display_row(guess: tuple[str, str] = None) -> None:
         print()
 
 
+def encode_guess(answer_param: dict, guess: str) -> tuple[str, str]:
+    """
+    Returns an encoded version of the guess.
+    The way it encodes is as follows:
+    - If the letter is not in the word, it is encoded as 0
+    - If the letter is in the word but not in the correct position, it is encoded as 1
+    - If the letter is in the word and in the correct position, it is encoded as 2
+    :param answer_param: The answer dictionary with the word and its letter count
+    :param guess: The user's guessed word
+    :return: Tuple (<word_guessed, <code>)
+    """
+    answer = answer_param['answer']
+    answer_letters = answer_param['letters'].copy()
+    code = ""
+
+    for i, letter in enumerate(guess):
+        if letter in answer_letters and answer_letters[letter] > 0:
+            if answer[i] == letter:
+                code += f.GREEN.value
+            else:
+                code += f.YELLOW.value
+            answer_letters[letter] -= 1
+        else:
+            code += f.GRAY.value
+
+    return guess, code
+
+
 class Wordle:
     """
     A CLI version of the game Wordle.
@@ -93,32 +121,6 @@ class Wordle:
         self.agent = agent
         self.agent.guesses = self.user_guesses
 
-    def encode_guess(self, guess: str) -> tuple[str, str]:
-        """
-        Returns an encoded version of the guess.
-        The way it encodes is as follows:
-        - If the letter is not in the word, it is encoded as 0
-        - If the letter is in the word but not in the correct position, it is encoded as 1
-        - If the letter is in the word and in the correct position, it is encoded as 2
-        :param guess: The user's guessed word
-        :return: Tuple (<word_guessed, <code>)
-        """
-        answer = self.answer['answer']
-        answer_letters = self.answer['letters'].copy()
-        code = ""
-
-        for i, letter in enumerate(guess):
-            if letter in answer_letters and answer_letters[letter] > 0:
-                if answer[i] == letter:
-                    code += f.GREEN.value
-                else:
-                    code += f.YELLOW.value
-                answer_letters[letter] -= 1
-            else:
-                code += f.GRAY.value
-
-        return guess, code
-
     def get_guess(self) -> str:
         """
         Get the user's guess by showing the current state of the game
@@ -146,7 +148,7 @@ class Wordle:
 
         for i in range(self.max_guesses):
             user_guess = self.get_guess()
-            self.user_guesses[i] = self.encode_guess(user_guess)
+            self.user_guesses[i] = encode_guess(self.answer, user_guess)
             self.agent.guesses = self.user_guesses
 
             self.has_won = user_guess == self.answer['answer']

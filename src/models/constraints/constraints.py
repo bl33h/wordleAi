@@ -13,7 +13,7 @@ class Constraints(Agent):
             for word in self.guess_words:
                 self.posible_words[word] = 1 / len(self.guess_words)
 
-        self.guess_words = load_guesses('src/data/guesses.txt')
+        self.guess_words = load_guesses('data/guesses.txt')
         self.posible_words = {}
         define_posible_words(self)
         self.letters = {}
