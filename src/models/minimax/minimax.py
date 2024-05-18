@@ -2,10 +2,10 @@ import itertools
 
 import numpy as np
 
-from src.data.file_functions import *
-from src.feedback import Feedback as f
-from src.game.wordle import parse_letters, encode_guess
-from src.models.agent import Agent
+from data.file_functions import *
+from feedback import Feedback as f
+from game.wordle import parse_letters, encode_guess
+from models.agent import Agent
 
 
 def get_feedback(guess: str, supposed_answer: str) -> tuple[str]:
@@ -76,7 +76,7 @@ class Minimax(Agent):
     def __init__(self, max_depth: int = 5):
         super().__init__()
         self.max_depth = max_depth
-        self.words = list(load_guesses('data/guesses.txt'))
+        self.words = list(load_guesses('src/data/guesses.txt'))
         self.outcomes = {}
         self.last_guess_idx = 0
 

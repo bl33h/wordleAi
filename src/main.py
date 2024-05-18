@@ -1,13 +1,13 @@
-from src.game.wordle import Wordle
-from src.models.constraints.constraints import Constraints
-from src.models.user.user import User
-from src.models.minimax.minimax import Minimax
+from game.wordle import Wordle
+from models.constraints.constraints import Constraints
+from models.user.user import User
+from models.minimax.minimax import Minimax
 
 
 def main():
     wordle = Wordle(
-        answers_path='data/answers.txt',
-        guesses_path='data/guesses.txt',
+        answers_path='src/data/answers.txt',
+        guesses_path='src/data/guesses.txt',
         max_guesses=6,
         display_answer=True
     )
