@@ -1,0 +1,4 @@
+model,totalTime,attempts,answerWord,guessWords,won
+Constraints,3.04880428314209,3,"{'answer': 'TOAST', 'letters': {'T': 2, 'O': 1, 'A': 1, 'S': 1}}","[('TRACE', '20200'), ('TWALS', '20201'), ('TOAST', '22222'), None, None, None]",True
+Constraints,4.077532052993774,4,"{'answer': 'AGREE', 'letters': {'A': 1, 'G': 1, 'R': 1, 'E': 2}}","[('TRACE', '01102'), ('PARAE', '01202'), ('MORAE', '00212'), ('AGREE', '22222'), None, None]",True
+Constraints,4.150332689285278,4,"{'answer': 'CRASH', 'letters': {'C': 1, 'R': 1, 'A': 1, 'S': 1, 'H': 1}}","[('SALET', '11000'), ('GOADS', '00201'), ('ABASH', '10022'), ('CRASH', '22222'), None, None]",True

@@ -2,20 +2,15 @@ import csv
 import time
 import statistics
 from game.wordle import Wordle
-from models.constraints.constraints import Constraints
 from models.minimax.minimax import Minimax
+from models.constraints.constraints import Constraints
 
-def testAlgorithm(agent_class, agent_name, answersPath, guessesPath):
+def testAlgorithm(agent_class, agent_name, answersPath, guessesPath, trialsNumber=100):
     results = []
     
-    # read the answers.txt file
-    with open(answersPath, 'r') as file:
-        answers = file.read().splitlines()
-    
-    for answer in answers:
+    for _ in range(trialsNumber):
         game = Wordle(answersPath, guessesPath)
         game.set_agent(agent_class())
-        game.set_answer(answer)
         
         starting = time.time()
         game.play()
@@ -31,10 +26,9 @@ def testAlgorithm(agent_class, agent_name, answersPath, guessesPath):
         }
         results.append(result)
 
-    # Calcula promedios y tasas
     avgTime = statistics.mean([res['totalTime'] for res in results])
     avgAttempts = statistics.mean([res['attempts'] for res in results])
-    accuracy = (sum([1 for res in results if res['won']]) / len(answers)) * 100
+    accuracy = (sum([1 for res in results if res['won']]) / trialsNumber) * 100
     
     summary = {
         'averageTime': avgTime,
@@ -52,12 +46,24 @@ def saveResults(results, filename):
         dictWriter = csv.DictWriter(output_file, keys)
         dictWriter.writeheader()
         for result in results:
-            dictWriter.writerow(result)
+            if 'model' in result:
+                dictWriter.writerow(result)
+
+def saveSummary(summary, filename):
+    keys = summary.keys()
+    with open(filename, 'w', newline='') as output_file:
+        dictWriter = csv.DictWriter(output_file, keys)
+        dictWriter.writeheader()
+        dictWriter.writerow(summary)
 
 if __name__ == "__main__":
-    constraintsResults = testAlgorithm(Constraints, 'Constraints', 'src/data/answers.txt', 'src/data/guesses.txt')
-    minimaxResults = testAlgorithm(Minimax, 'Minimax', 'src/data/answers.txt', 'src/data/guesses.txt')
-    saveResults(constraintsResults, 'src/results/constraintsPerformance.csv')
-    saveResults(minimaxResults, 'src/results/minimaxPerformance.csv')
+    constraintsResults = testAlgorithm(Constraints, 'Constraints', 'src/data/answers.txt', 'src/data/guesses.txt', 3)
+    minimaxResults = testAlgorithm(Minimax, 'Minimax', 'src/data/answers.txt', 'src/data/guesses.txt', 3)
+    
+    saveResults(constraintsResults[:-1], 'src/results/constraintsPerformance.csv')
+    saveResults(minimaxResults[:-1], 'src/results/minimaxPerformance.csv')
+    
+    saveSummary(constraintsResults[-1], 'src/results/constraintsSummary.csv')
+    saveSummary(minimaxResults[-1], 'src/results/minimaxSummary.csv')
 
-    print("Results saved up in respective CSV files")
+    print("Results and summaries saved up in respective CSV files")
