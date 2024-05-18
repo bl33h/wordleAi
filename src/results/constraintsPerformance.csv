@@ -1,4 +1,5 @@
 model,totalTime,attempts,answerWord,guessWords,won
-Constraints,3.04880428314209,3,"{'answer': 'TOAST', 'letters': {'T': 2, 'O': 1, 'A': 1, 'S': 1}}","[('TRACE', '20200'), ('TWALS', '20201'), ('TOAST', '22222'), None, None, None]",True
-Constraints,4.077532052993774,4,"{'answer': 'AGREE', 'letters': {'A': 1, 'G': 1, 'R': 1, 'E': 2}}","[('TRACE', '01102'), ('PARAE', '01202'), ('MORAE', '00212'), ('AGREE', '22222'), None, None]",True
-Constraints,4.150332689285278,4,"{'answer': 'CRASH', 'letters': {'C': 1, 'R': 1, 'A': 1, 'S': 1, 'H': 1}}","[('SALET', '11000'), ('GOADS', '00201'), ('ABASH', '10022'), ('CRASH', '22222'), None, None]",True
+Constraints,3.1613638401031494,3,"{'answer': 'GUILT', 'letters': {'G': 1, 'U': 1, 'I': 1, 'L': 1, 'T': 1}}","[('TRACE', '10000'), ('NUTSY', '02100'), ('GUILT', '22222'), None, None, None]",True
+Constraints,2.0551671981811523,2,"{'answer': 'ARGUE', 'letters': {'A': 1, 'R': 1, 'G': 1, 'U': 1, 'E': 1}}","[('TRACE', '02102'), ('ARGUE', '22222'), None, None, None, None]",True
+Constraints,3.2015511989593506,3,"{'answer': 'DRIVE', 'letters': {'D': 1, 'R': 1, 'I': 1, 'V': 1, 'E': 1}}","[('SALET', '00010'), ('DERIG', '21110'), ('DRIVE', '22222'), None, None, None]",True
+Constraints,6.177090406417847,6,"{'answer': 'CRAZE', 'letters': {'C': 1, 'R': 1, 'A': 1, 'Z': 1, 'E': 1}}","[('SALET', '01010'), ('BEANY', '01200'), ('AGAVE', '10002'), ('CRAME', '22202'), ('CRARE', '22202'), ('CRAPE', '22202')]",False

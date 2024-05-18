@@ -1,4 +1,5 @@
 model,totalTime,attempts,answerWord,guessWords,won
-Minimax,16.84892511367798,4,"{'answer': 'LAYER', 'letters': {'L': 1, 'A': 1, 'Y': 1, 'E': 1, 'R': 1}}","[('CRATE', '01101'), ('LARDS', '22100'), ('MAWKY', '02001'), ('LAYER', '22222'), None, None]",True
-Minimax,3.920773983001709,3,"{'answer': 'VALVE', 'letters': {'V': 2, 'A': 1, 'L': 1, 'E': 1}}","[('SALET', '02210'), ('CHIVS', '00020'), ('VALVE', '22222'), None, None, None]",True
-Minimax,76.30174446105957,5,"{'answer': 'ALPHA', 'letters': {'A': 2, 'L': 1, 'P': 1, 'H': 1}}","[('TRACE', '00100'), ('LANKS', '11000'), ('AULOI', '20100'), ('HAPPY', '11200'), ('ALPHA', '22222'), None]",True
+Minimax,13.774449110031128,5,"{'answer': 'SERIF', 'letters': {'S': 1, 'E': 1, 'R': 1, 'I': 1, 'F': 1}}","[('SALET', '20010'), ('IRONS', '11001'), ('WHAUP', '00000'), ('FILLE', '11001'), ('SERIF', '22222'), None]",True
+Minimax,46.825281858444214,5,"{'answer': 'GROOM', 'letters': {'G': 1, 'R': 1, 'O': 2, 'M': 1}}","[('SALET', '00000'), ('IRONY', '02200'), ('BIPOD', '00020'), ('MARGE', '10110'), ('GROOM', '22222'), None]",True
+Minimax,11.239598512649536,4,"{'answer': 'METER', 'letters': {'M': 1, 'E': 2, 'T': 1, 'R': 1}}","[('CRATE', '01011'), ('OSIER', '00022'), ('THUMP', '10010'), ('METER', '22222'), None, None]",True
+Minimax,33.43286442756653,5,"{'answer': 'UMBRA', 'letters': {'U': 1, 'M': 1, 'B': 1, 'R': 1, 'A': 1}}","[('TRACE', '01100'), ('DARIS', '01100'), ('GLOAM', '00011'), ('REDUB', '10011'), ('UMBRA', '22222'), None]",True

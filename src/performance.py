@@ -8,7 +8,7 @@ from models.constraints.constraints import Constraints
 def testAlgorithm(agent_class, agent_name, answersPath, guessesPath, trialsNumber=100):
     results = []
     
-    for _ in range(trialsNumber):
+    for i in range(trialsNumber):
         game = Wordle(answersPath, guessesPath)
         game.set_agent(agent_class())
         
@@ -25,6 +25,9 @@ def testAlgorithm(agent_class, agent_name, answersPath, guessesPath, trialsNumbe
             'won': game.has_won
         }
         results.append(result)
+
+        if (i + 1) % 25 == 0:
+            print(f'\n---------------------- [{i + 1}] completed iterations so far ----------------------')
 
     avgTime = statistics.mean([res['totalTime'] for res in results])
     avgAttempts = statistics.mean([res['attempts'] for res in results])
@@ -57,8 +60,8 @@ def saveSummary(summary, filename):
         dictWriter.writerow(summary)
 
 if __name__ == "__main__":
-    constraintsResults = testAlgorithm(Constraints, 'Constraints', 'src/data/answers.txt', 'src/data/guesses.txt', 3)
-    minimaxResults = testAlgorithm(Minimax, 'Minimax', 'src/data/answers.txt', 'src/data/guesses.txt', 3)
+    constraintsResults = testAlgorithm(Constraints, 'Constraints', 'src/data/answers.txt', 'src/data/guesses.txt', 1200)
+    minimaxResults = testAlgorithm(Minimax, 'Minimax', 'src/data/answers.txt', 'src/data/guesses.txt', 1200)
     
     saveResults(constraintsResults[:-1], 'src/results/constraintsPerformance.csv')
     saveResults(minimaxResults[:-1], 'src/results/minimaxPerformance.csv')
