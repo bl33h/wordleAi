@@ -61,5 +61,6 @@ $ cd src
 # Run the app
 $ python main.py
 ```
+
 ## References
 The information located in src/data was retrieved from the [roget repository](https://github.com/jonhoo/roget/tree/main)
