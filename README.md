@@ -23,8 +23,9 @@ This project is designed to simulate the Wordle game, where players guess a five
 
 ## Files
 - main.py: The main entry point of the project. It initializes the Wordle game and allows the user to play or run simulations with different solving models.
-- wordle.py
-  Contains the core logic for the Wordle game, including initializing the game, processing guesses, and determining win/loss conditions.
+- wordle.py: Contains the core logic for the Wordle game, including initializing the game, processing guesses, and determining win/loss conditions.
+- answers.txt: Contains the list of possible answers for the Wordle game.
+- guesses.txt: Contains the list of possible guesses for the Wordle game.
 - agent.py: Defines the agent that interacts with the Wordle game, making guesses and receiving feedback.
 - state.py: Manages the state of the Wordle game, including the current guesses, remaining attempts, and whether the game has been won or lost.
 - file_functions.py: Contains functions for reading and writing to files, primarily used for loading word lists and saving game results.
