@@ -22,32 +22,17 @@ This project is designed to simulate the Wordle game, where players guess a five
 - **Graphical Representations**: Generate graphs to compare model performances.
 
 ## Files
-- main.py
-  The main entry point of the project. It initializes the Wordle game and allows the user to play or run simulations with different solving models.
+- main.py: The main entry point of the project. It initializes the Wordle game and allows the user to play or run simulations with different solving models.
 - wordle.py
   Contains the core logic for the Wordle game, including initializing the game, processing guesses, and determining win/loss conditions.
-- agent.py
-  Defines the agent that interacts with the Wordle game, making guesses and receiving feedback.
-- state.py
-  Manages the state of the Wordle game, including the current guesses, remaining attempts, and whether the game has been won or lost.
-
-file_functions.py
-Contains functions for reading and writing to files, primarily used for loading word lists and saving game results.
-
-feedback.py
-Handles the feedback mechanism, providing hints based on the player's guesses and the actual word.
-
-minimax.py
-Implements the Minimax algorithm, a decision-making algorithm used for finding the optimal solution in the Wordle game.
-
-constraints.py
-Implements the Constraints model, which uses constraint satisfaction techniques to solve the Wordle game by narrowing down possible words based on given feedback.
-
-performance.py
-Contains functions to measure the performance of the solving models. It compares success rates, total solving time, and accuracy.
-
-graphs.py
-Generates various graphs to visualize the performance of different solving models. This includes histograms for total time distribution and bar charts for success rates and accuracy.
+- agent.py: Defines the agent that interacts with the Wordle game, making guesses and receiving feedback.
+- state.py: Manages the state of the Wordle game, including the current guesses, remaining attempts, and whether the game has been won or lost.
+- file_functions.py: Contains functions for reading and writing to files, primarily used for loading word lists and saving game results.
+- feedback.py: Handles the feedback mechanism, providing hints based on the player's guesses and the actual word.
+- minimax.py: Implements the Minimax algorithm, a decision-making algorithm used for finding the optimal solution in the Wordle game.
+- constraints.py: Implements the Constraints model, which uses constraint satisfaction techniques to solve the Wordle game by narrowing down possible words based on given feedback.
+- performance.py: Contains functions to measure the performance of the solving models. It compares success rates, total solving time, and accuracy.
+- graphs.py: Generates various graphs to visualize the performance of different solving models. This includes histograms for total time distribution and bar charts for success rates and accuracy.
 
 ## References
 - The information located in src/data was retrieved from the [roget repository](https://github.com/jonhoo/roget/tree/main)
