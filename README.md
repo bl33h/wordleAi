@@ -1,5 +1,4 @@
 # wordleAi
-## Description
 This project is designed to simulate the Wordle game, where players guess a five-letter word within six tries. The project includes two solving models: Constraints and Minimax, to analyze their performance in solving the game.
 
 <p align="center">
