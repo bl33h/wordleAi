@@ -34,5 +34,18 @@ This project is designed to simulate the Wordle game, where players guess a five
 - performance.py: Contains functions to measure the performance of the solving models. It compares success rates, total solving time, and accuracy.
 - graphs.py: Generates various graphs to visualize the performance of different solving models. This includes histograms for total time distribution and bar charts for success rates and accuracy.
 
+## How To Use
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/bl33h/wordleAi
+
+# Open the project
+$ cd src
+
+# Run the app
+$ python main.py
+```
 ## References
 - The information located in src/data was retrieved from the [roget repository](https://github.com/jonhoo/roget/tree/main)
