@@ -35,10 +35,23 @@ This project is designed to simulate the Wordle game, where players guess a five
 - performance.py: Contains functions to measure the performance of the solving models. It compares success rates, total solving time, and accuracy.
 - graphs.py: Generates various graphs to visualize the performance of different solving models. This includes histograms for total time distribution and bar charts for success rates and accuracy.
 
+## Packages
+The project requires the following Python packages:
+- pandas: For data manipulation and analysis.
+- matplotlib: For creating static, animated, and interactive visualizations.
+- seaborn: For making statistical graphics.
+- numpy: For supporting large, multi-dimensional arrays and matrices.
+- scipy: For scientific and technical computing.
+  
+You can install these packages using the following command:
+```
+$ pip install pandas matplotlib seaborn numpy scipy
+```
+
 ## How To Use
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. From your command line:
 
-```bash
+```
 # Clone this repository
 $ git clone https://github.com/bl33h/wordleAi
 
